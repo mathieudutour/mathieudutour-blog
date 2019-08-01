@@ -15,10 +15,10 @@ module.exports = {
   social: {
     // leave the social media you do not want to appear as empty strings
     twitter: 'MathieuDutour',
-    medium: '@mathieudutour',
+    medium: '',
     facebook: '',
-    github: '',
+    github: 'mathieudutour',
     linkedin: '',
-    instagram: '',
+    instagram: 'mathieudutour',
   },
 }
