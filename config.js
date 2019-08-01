@@ -11,7 +11,7 @@ module.exports = {
   author: 'Mathieu Dutour',
   githubUrl: 'https://github.com/mathieudutour/mathieudutour-blog',
   // replace this by the url where your website will be published
-  siteUrl: 'https://mathieudutour-blog.netlify.com',
+  siteUrl: 'https://deploy-preview-1--mathieudutour-blog.netlify.com',
   social: {
     // leave the social media you do not want to appear as empty strings
     twitter: 'MathieuDutour',

@@ -120,6 +120,7 @@ const plugins = [
   },
 ]
 
+
 if (process.env.WEBMENTIONS_TOKEN) {
   plugins.push({
     resolve: `gatsby-plugin-webmention`,
@@ -130,7 +131,7 @@ if (process.env.WEBMENTIONS_TOKEN) {
         twitter: config.social.twitter.replace(/^@/, '')
       },
       mentions: true,
-      pingbacks: false,
+      pingbacks: true,
       domain: config.siteUrl.replace(/^https?:\/\//i, ''),
       token: process.env.WEBMENTIONS_TOKEN
     }
