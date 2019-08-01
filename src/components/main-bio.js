@@ -3,6 +3,7 @@ import { useStaticQuery, graphql } from 'gatsby'
 import Image from 'gatsby-image'
 
 import './main-bio.css'
+import './webmention.css'
 
 const socialURLs = {
   twitter: 'https://twitter.com',
@@ -65,6 +66,7 @@ function Bio() {
           siteMetadata {
             author
             bio
+            siteUrl
             social {
               twitter
               github
@@ -79,7 +81,7 @@ function Bio() {
     `
   )
 
-  const { author, social, bio } = site.siteMetadata
+  const { author, social, bio, siteUrl } = site.siteMetadata
 
   return (
     <div
@@ -90,6 +92,20 @@ function Bio() {
     >
       <div className="main-bio">
         <h1 style={{ marginBottom: '0.875rem' }}>{author}</h1>
+        <p className="webmention-hidden">
+          Follow <a className="h-card" rel="me" href={siteUrl}>{author}</a> on {Object.keys(social).map(s => social[s] ? (
+            <span>
+              <a
+                href={`${socialURLs[s]}/${social[s]}`}
+                rel='me'
+              >
+                {s}
+              </a>
+              {' or '}
+            </span>
+          ) : null
+        )}.
+        </p>
         <ul className="horizontal-links" style={{ marginBottom: '0.875rem' }}>
           {Object.keys(social).map(s =>
             social[s] ? (
