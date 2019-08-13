@@ -6,13 +6,22 @@ import SEO from '../components/seo'
 import Pills from '../components/pills'
 import Bio from '../components/bio'
 import Embed from '../components/embed'
+import Responses from '../components/responses'
 import { formatPostDate, formatReadingTime } from '../utils/dates'
 
 import './blog-post.css'
 
-export default function PageTemplate({ data: { mdx, site }, pageContext }) {
+export default function PageTemplate({
+  data: { mdx, site, allWebMentionEntry },
+  pageContext,
+}) {
   const { previous, next } = pageContext
   const publicUrl = `${site.siteMetadata.siteUrl}${mdx.fields.slug}`
+
+  const likes = allWebMentionEntry.nodes.filter(x => x.wmProperty === 'like-of')
+  const responses = allWebMentionEntry.nodes.filter(
+    x => x.wmProperty === 'in-reply-to'
+  )
 
   return (
     <div>
@@ -48,6 +57,17 @@ export default function PageTemplate({ data: { mdx, site }, pageContext }) {
           <MDXRenderer scope={{ Embed }}>{mdx.body}</MDXRenderer>
         </article>
         <footer className="container small">
+          <a
+            className="footer-likes"
+            target="_blank"
+            rel="nofollow noopener noreferrer"
+            href={`https://twitter.com/search?q=${publicUrl}`}
+          >
+            ♡{' '}
+            {likes.length
+              ? `${likes.length} like${likes.length > 1 ? 's' : ''}`
+              : 'Like'}
+          </a>
           <small>
             <a
               target="_blank"
@@ -60,9 +80,7 @@ export default function PageTemplate({ data: { mdx, site }, pageContext }) {
             <a
               target="_blank"
               rel="nofollow noopener noreferrer"
-              href={`${site.siteMetadata.githubUrl}/edit/master/content${
-                mdx.fields.slug
-              }index.md`}
+              href={`${site.siteMetadata.githubUrl}/edit/master/content${mdx.fields.slug}index.md`}
             >
               Edit this post on GitHub
             </a>
@@ -73,6 +91,21 @@ export default function PageTemplate({ data: { mdx, site }, pageContext }) {
             }}
           />
           <Bio />
+          <hr
+            style={{
+              margin: `24px 0`,
+            }}
+          />
+          {responses.length ? (
+            <div>
+              <Responses responses={responses} />
+              <hr
+                style={{
+                  margin: `24px 0`,
+                }}
+              />
+            </div>
+          ) : null}
           <ul
             style={{
               display: `flex`,
@@ -104,7 +137,7 @@ export default function PageTemplate({ data: { mdx, site }, pageContext }) {
 }
 
 export const pageQuery = graphql`
-  query BlogPostQuery($id: String) {
+  query BlogPostQuery($id: String, $permalink: String) {
     site {
       siteMetadata {
         siteUrl
@@ -124,6 +157,23 @@ export const pageQuery = graphql`
         canonical_link
       }
       body
+    }
+    allWebMentionEntry(filter: { wmTarget: { eq: $permalink } }) {
+      nodes {
+        wmProperty
+        wmId
+        url
+        wmReceived
+        author {
+          url
+          photo
+          name
+        }
+        content {
+          text
+        }
+        video
+      }
     }
   }
 `

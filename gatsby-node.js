@@ -21,6 +21,38 @@ exports.createSchemaCustomization = ({ actions }) => {
       slug: String
       published: Boolean
     }
+
+    type WebMentionEntry implements Node {
+      type: String
+      author: WebMentionAuthor
+      content: WebMentionContent
+      photo: [String]
+      video: [String]
+      url: String
+      published: Date @dateformat
+      wmReceived: Date @dateformat
+      wmId: Int
+      wmPrivate: Boolean
+      wmTarget: String
+      wmSource: String
+      wmProperty: String
+      likeOf: String
+      mentionOf: String
+      inReplyTo: String
+      repostOf: String
+      bookmarkOf: String
+      rsvp: String
+    }
+    type WebMentionAuthor {
+      type: String
+      name: String
+      url: String
+      photo: String
+    }
+    type WebMentionContent {
+      text: String
+      html: String
+    }
   `
   createTypes(typeDefs)
 }
@@ -49,6 +81,11 @@ exports.createPages = ({ graphql, actions, reporter, pathPrefix }) => {
   return graphql(
     `
       {
+        site {
+          siteMetadata {
+            siteUrl
+          }
+        }
         allMdx(sort: { fields: [frontmatter___date], order: DESC }) {
           edges {
             node {
@@ -93,11 +130,12 @@ exports.createPages = ({ graphql, actions, reporter, pathPrefix }) => {
       }
 
       const pagePath = `${pathPrefix}${node.fields.slug}`
+      const permalink = `${result.data.site.siteMetadata.siteUrl}${node.fields.slug}`
 
       createPage({
         path: pagePath,
         component: path.resolve(`./src/templates/blog-post.js`),
-        context: { id: node.id, previous, next },
+        context: { id: node.id, permalink, previous, next },
       })
 
       if (

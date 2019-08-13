@@ -91,26 +91,15 @@ function Bio() {
       }}
     >
       <div className="main-bio">
-        <h1 style={{ marginBottom: '0.875rem' }}>{author}</h1>
-        <p className="webmention-hidden">
-          Follow <a className="h-card" rel="me" href={siteUrl}>{author}</a> on {Object.keys(social).map(s => social[s] ? (
-            <span>
-              <a
-                href={`${socialURLs[s]}/${social[s]}`}
-                rel='me'
-              >
-                {s}
-              </a>
-              {' or '}
-            </span>
-          ) : null
-        )}.
-        </p>
+        <a className="h-card" rel="me" href={siteUrl}>
+          <h1 style={{ marginBottom: '0.875rem' }}>{author}</h1>
+        </a>
         <ul className="horizontal-links" style={{ marginBottom: '0.875rem' }}>
           {Object.keys(social).map(s =>
             social[s] ? (
               <li key={s}>
                 <a
+                  rel="me"
                   aria-label={`${s} profile`}
                   className="u-no-box-shadow"
                   href={`${socialURLs[s]}/${social[s]}`}
