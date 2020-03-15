@@ -1,6 +1,7 @@
 backend:
   name: git-gateway
   branch: master
+publish_mode: editorial_workflow
 media_folder: static/media
 public_folder: /media
 collections:
@@ -8,7 +9,7 @@ collections:
     label: 'Blog'
     folder: 'content'
     create: true
-    slug: '{{slug}}/index'
+    path: '{{slug}}/index'
     media_folder: ''
     public_folder: ''
     fields:
@@ -27,3 +28,4 @@ collections:
           widget: 'list',
           field: { label: 'Category', name: 'category', widget: 'string' },
         }
+      - { label: 'Body', name: 'body', widget: 'markdown' }
