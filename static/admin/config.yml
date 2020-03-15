@@ -7,7 +7,7 @@ collections:
   - name: 'blog'
     label: 'Blog'
     folder: 'content'
-    create: true # Allow users to create new documents in this collection
+    create: true
     slug: '{{slug}}/index'
     media_folder: ''
     public_folder: ''
