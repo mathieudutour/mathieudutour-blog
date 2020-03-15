@@ -2,6 +2,8 @@
 title: test
 date: 2020-03-15T13:34:18.273Z
 published: false
+categories:
+  - design
 ---
 Hello!
 
