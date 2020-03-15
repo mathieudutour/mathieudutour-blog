@@ -10,5 +10,6 @@ module.exports = {
         config,
       },
     },
+    `gatsby-plugin-netlify-cms`,
   ],
 }
