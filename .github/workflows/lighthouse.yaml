@@ -1,0 +1,11 @@
+name: Lighthouse
+
+on: pull_request
+
+jobs:
+  lighthouse:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/setup-node@v1
+      - run: npm install
+      - run: ./node_modules/.bin/lighthousebot --perf 90 --pwa 90 --a11y 90 --bp 90 --seo 90 "$(wait-for-netlify-preview)"
